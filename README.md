@@ -20,8 +20,8 @@ Files in /deps folder are third-party libraries except for `unix_clock`.
 
 The code is lengthy but the basic procedure is as follow.
 
-1. Download and decode "story/MasterData" messagePack.
-2. Find "resourcePathR18" value in the decoded MasterData.
+1. Download and decode messagePack.
+2. Find key value in the decoded json.
 3. Request scenario text paths.
 4. Download scenario texts.
 5. Find resource names in the scenario text.
