@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <script type="text/javascript" src="js/rollups/sha256.js"></script>
+
+    <script type="text/javascript" src="js/components/enc-base64.js"></script>
+    <script type="text/javascript" src="js/components/md5.js"></script>
+    <script type="text/javascript" src="js/components/evpkdf.js"></script>
+    <script type="text/javascript" src="js/components/cipher-core.js"></script>
+    <script type="text/javascript" src="js/components/core.js"></script>
+    <script type="text/javascript" src="js/components/aes.js"></script>
+    <script type="text/javascript" src="js/components/mode-ctr.js"></script>
+    <script type="text/javascript" src="js/components/pad-nopadding.js"></script>
+
+    <script type="text/javascript" src="js/rollups/aes.js"></script>
+
+    <script type="text/javascript" src="js/msgpack.min.js"></script>
+
+    <title>OrphanTest</title>
+
+</head>
+<body>
+    <form id="fileTypeForm">
+        <fieldset>
+            <legend>File type</legend>
+            <div>
+                <label><input type="radio" name="fileTypeLabel" value="Manifest">Manifest</label>
+                <label><input type="radio" name="fileTypeLabel" value="Data">Data</label>
+                <label><input type="radio" name="fileTypeLabel" value="MsgPack" checked>MsgPack</label>
+            </div>
+        </fieldset>
+    </form>
+
+    <input type="file" id="select_file">
+
+    <script>
+        var _token = "3WKYas7EE8NTOeH7FjzCyt";
+
+        document.getElementById('select_file').addEventListener('change', onFileChange, false);
+
+        var reader = new FileReader();
+        reader.addEventListener('load', onReaderLoad, false);
+
+        function onFileChange(ev) {
+            let target = ev.target;
+            let file = target.files[0];
+
+            reader.fileName = file.name;
+
+            let method = fileTypeForm.elements['fileTypeLabel'].value;
+            method == 'MsgPack' ? reader.readAsArrayBuffer(file) : reader.readAsBinaryString(file);
+        }
+
+        function onReaderLoad() {
+            console.log(reader.result);
+
+            let method = fileTypeForm.elements['fileTypeLabel'].value;
+            let decrypted;
+            switch (method) {
+                case 'Manifest':
+                    decrypted = decryptManifest(reader.result);
+                    break;
+                case 'Data':
+                    decrypted = decryptData(reader.result, _token);
+                    break;
+                case 'MsgPack':
+                    decrypted = decodeMsgPack(reader.result);
+                    break;
+            }
+            console.log(decrypted);
+            saveText(reader.fileName, decrypted);
+        }
+
+        function decryptManifest(t) {
+            var e = CryptoJS.SHA256("#mnsg#manifest")
+                , i = CryptoJS.enc.Base64.stringify(e).substr(0, 32)
+                , n = {
+                    iv: "BFA4332ECFDCB3D1DA2633B5AB509094",
+                    mode: CryptoJS.mode.CTR
+                }
+                , o = CryptoJS.AES.decrypt(t, i, n);
+            return CryptoJS.enc.Utf8.stringify(o);
+        }
+
+        function saveText(filename, content) {
+            var blob = new Blob([content], { type: 'text/plain' });
+            var link = document.createElement("a");
+            link.download = filename;
+            link.innerHTML = "Download the decrypted";
+            link.href = window.URL.createObjectURL(blob);
+            document.body.appendChild(link);
+        }
+
+        function encryptData(t, e) {
+            var i = CryptoJS.SHA256(e + "one-deep")
+                , n = i.toString(CryptoJS.enc.Base64).substr(0, 32)
+                , o = {
+                    iv: (i = CryptoJS.SHA256(e.substr(0, 16))).toString(CryptoJS.enc.Base64).substr(0, 16),
+                    mode: CryptoJS.mode.CTR
+                };
+            return CryptoJS.AES.encrypt(t, n, o).toString()
+        }
+
+        function decryptData(t, e) {
+            var i = CryptoJS.SHA256(e + "one-deep")
+                , n = i.toString(CryptoJS.enc.Base64).substr(0, 32)
+                , o = {
+                    iv: (i = CryptoJS.SHA256(e.substr(0, 16))).toString(CryptoJS.enc.Base64).substr(0, 16),
+                    mode: CryptoJS.mode.CTR
+                };
+            return CryptoJS.AES.decrypt(t, n, o).toString(CryptoJS.enc.Utf8)
+        }
+
+        function decodeMsgPack(i) {
+            let array = new Uint8Array(i)
+            let data = msgpack.decode(array);
+            return JSON.stringify(data);
+        }
+
+    </script>
+
+    <style>
+        legend {
+            white-space: normal;
+            display: table;
+        }
+    </style>
+</body>
+</html>
