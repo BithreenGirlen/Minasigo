@@ -53,7 +53,7 @@ namespace minasigo
 
 	/*======================== Copy but converted from wchar_t* to char* ========================*/
 
-	/*“`•¶o—Í*/
+	/*ä¼æ–‡å‡ºåŠ›*/
 	void WriteMessage(const char* msg)
 	{
 		char stamp[16];
@@ -63,7 +63,7 @@ namespace minasigo
 		std::string str = stamp + std::string(msg) + "\r\n";
 		printf(str.c_str());
 	}
-	/*ÀsƒvƒƒZƒX‚ÌŠK‘wæ“¾*/
+	/*å®Ÿè¡Œãƒ—ãƒ­ã‚»ã‚¹ã®éšå±¤å–å¾—*/
 	std::string GetBaseFolderPath()
 	{
 		char pzPath[MAX_PATH]{};
@@ -71,7 +71,7 @@ namespace minasigo
 		std::string::size_type pos = std::string(pzPath).find_last_of("\\/");
 		return std::string(pzPath).substr(0, pos) + "\\/";
 	}
-	/*ì‹ÆƒtƒHƒ‹ƒ_ì¬*/
+	/*ä½œæ¥­ãƒ•ã‚©ãƒ«ãƒ€ä½œæˆ*/
 	std::string CreateWorkFolder(const char* pzFolderName)
 	{
 		std::string strFolder = GetBaseFolderPath();
@@ -83,7 +83,7 @@ namespace minasigo
 		}
 		return strFolder;
 	}
-	/*ƒtƒ@ƒCƒ‹‚Ìƒƒ‚ƒŠ“WŠJ*/
+	/*ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ¡ãƒ¢ãƒªå±•é–‹*/
 	char* LoadExistingFile(const char* pzFilPath)
 	{
 		HANDLE hFile = ::CreateFileA(pzFilPath, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
@@ -114,7 +114,7 @@ namespace minasigo
 
 		return nullptr;
 	}
-	/*“dq–Ô‘Œ¹‚Ì‘å‚«‚³æ“¾*/
+	/*é›»å­ç¶²è³‡æºã®å¤§ãã•å–å¾—*/
 	bool GetInternetResourceSize(const char* pzUrl, ULARGE_INTEGER& size)
 	{
 		CComPtr<IStream> pStream;
@@ -132,7 +132,7 @@ namespace minasigo
 		}
 		return false;
 	}
-	/*URL‚©‚çƒtƒ@ƒCƒ‹–¼æ“¾*/
+	/*URLã‹ã‚‰ãƒ•ã‚¡ã‚¤ãƒ«åå–å¾—*/
 	std::string GetFileNameFromUrl(const std::string& url)
 	{
 		size_t pos = url.find_last_of("/");
@@ -143,7 +143,7 @@ namespace minasigo
 
 		return std::string();
 	}
-	/*“dq–Ô‘Œ¹‚Ì•Û‘¶*/
+	/*é›»å­ç¶²è³‡æºã®ä¿å­˜*/
 	bool SaveInternetResourceToFile(const char* pzUrl, const char* pzFolder, const char* pzFileName, unsigned long nMinFileSize, bool bFolderCreation)
 	{
 		std::string strFileName = pzFileName == nullptr ? GetFileNameFromUrl(pzUrl) : strchr(pzFileName, '/') == nullptr ? pzFileName : GetFileNameFromUrl(pzFileName);
@@ -191,7 +191,7 @@ namespace minasigo
 
 		return false;
 	}
-	/*ƒƒ‚ƒŠ‚Ìƒtƒ@ƒCƒ‹o—Í*/
+	/*ãƒ¡ãƒ¢ãƒªã®ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›*/
 	bool WriteStringToFile(const std::string& strData, const char* pzFilePath)
 	{
 		BOOL iRet = 0;
@@ -210,7 +210,7 @@ namespace minasigo
 		}
 		return iRet > 0;
 	}
-	/*•Û‘¶ˆ—ƒƒbƒZ[ƒWo—Í*/
+	/*ä¿å­˜å‡¦ç†ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å‡ºåŠ›*/
 	void SaveStringToFile(const std::string& strData, const char* pzFilePath)
 	{
 		if (pzFilePath != nullptr)
@@ -231,7 +231,7 @@ namespace minasigo
 		}
 
 	}
-	/*ƒtƒ@ƒCƒ‹—L–³Šm”F*/
+	/*ãƒ•ã‚¡ã‚¤ãƒ«æœ‰ç„¡ç¢ºèª*/
 	bool DoesFilePathExist(const char* pzFilePath)
 	{
 		BOOL iRet = ::PathFileExistsA(pzFilePath);
@@ -336,7 +336,7 @@ namespace minasigo
 		return pResult;
 	}
 
-	/*w’èŠK‘w‚Ìƒtƒ@ƒCƒ‹EƒtƒHƒ‹ƒ_ˆê——¶¬*/
+	/*æŒ‡å®šéšå±¤ã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ»ãƒ•ã‚©ãƒ«ãƒ€ä¸€è¦§ç”Ÿæˆ*/
 	bool CreateFilePathList(const char* pwzFolderPath, const char* pwzFileExtension, std::vector<std::string>& paths)
 	{
 		if (pwzFolderPath == nullptr)return false;
@@ -359,7 +359,7 @@ namespace minasigo
 			{
 				do
 				{
-					/*ƒtƒ@ƒCƒ‹ˆê——*/
+					/*ãƒ•ã‚¡ã‚¤ãƒ«ä¸€è¦§*/
 					if (!(sFindData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
 					{
 						strNames.push_back(sFindData.cFileName);
@@ -370,7 +370,7 @@ namespace minasigo
 			{
 				do
 				{
-					/*ƒtƒHƒ‹ƒ_ˆê——*/
+					/*ãƒ•ã‚©ãƒ«ãƒ€ä¸€è¦§*/
 					if ((sFindData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
 					{
 						if (strcmp(sFindData.cFileName, ".") != 0 && strcmp(sFindData.cFileName, "..") != 0)
@@ -384,7 +384,7 @@ namespace minasigo
 			::FindClose(hFind);
 		}
 
-		/*–¼‘O‡®“Ú•s‰Â*/
+		/*åå‰é †æ•´é “ä¸å¯*/
 
 		for (const std::string &str : strNames)
 		{
@@ -396,7 +396,7 @@ namespace minasigo
 
 	/*======================== End of Copy ========================*/
 
-	/*”Åî•ñæ“¾*/
+	/*ç‰ˆæƒ…å ±å–å¾—*/
 	bool GetMnsgVersion()
 	{
 		std::string strUrl = "https://minasigo-no-shigoto-web-r-server.orphans-order.com/mnsg/user/getVersion";
@@ -430,7 +430,7 @@ namespace minasigo
 		return false;
 	}
 
-	/*”FØî•ñ“Ç‚İæ‚è*/
+	/*èªè¨¼æƒ…å ±èª­ã¿å–ã‚Š*/
 	void ReadAuthorityFiles()
 	{
 		std::string strFolder = GetBaseFolderPath() + "Auth\\/";
@@ -469,7 +469,7 @@ namespace minasigo
 
 	}
 
-	/*----------------------------------------  ”FØ¶¬—p‚±‚±‚©‚ç  ----------------------------------------*/
+	/*----------------------------------------  èªè¨¼ç”Ÿæˆç”¨ã“ã“ã‹ã‚‰  ----------------------------------------*/
 
 	char* MinasigonReplace(const char* src)
 	{
@@ -627,7 +627,7 @@ namespace minasigo
 
 		return WidenUtf8(strAuthorisation);
 	}
-	/*----------------------------------------  ”FØ¶¬—p‚±‚±‚Ü‚Å  ----------------------------------------*/
+	/*----------------------------------------  èªè¨¼ç”Ÿæˆç”¨ã“ã“ã¾ã§  ----------------------------------------*/
 
 	std::wstring CreateAppVersion()
 	{
@@ -659,7 +659,7 @@ namespace minasigo
 		return wstrHeader;
 	}
 
-	/*HTTP POST—v‹*/
+	/*HTTP POSTè¦æ±‚*/
 	bool RequestHttpPost(const std::wstring &wstrUrl, const std::wstring &wstrHeader, const std::string &strPayload, ResponseData &r)
 	{
 		bool bRet = false;
@@ -697,7 +697,7 @@ namespace minasigo
 
 		return std::string();
 	}
-	/*getStoryResource—v‹*/
+	/*getStoryResourceè¦æ±‚*/
 	std::string RequestGetStoryResource(const std::string& strPath)
 	{
 		if (g_pMainWindow == nullptr)return std::string();
@@ -717,7 +717,6 @@ namespace minasigo
 				if (wcsstr(wstrDecrypted.c_str(), L"md5") == nullptr)
 				{
 					printf("Response data:\r\n%S\r\n", wstrDecrypted.c_str());
-					return std::string();
 				}
 				return NarrowUtf8(wstrDecrypted);
 			}
@@ -735,7 +734,7 @@ namespace minasigo
 		return std::string();
 	}
 
-	/*•›Œo˜HZo*/
+	/*å‰¯çµŒè·¯ç®—å‡º*/
 	std::string GetSubPath(const char* hash)
 	{
 		if (hash == nullptr)return std::string();
@@ -771,7 +770,7 @@ namespace minasigo
 
 		return strPath;
 	}
-	/*Œo˜H¶¬*/
+	/*çµŒè·¯ç”Ÿæˆ*/
 	std::string CreateResourcePath(const ResourcePath& sResourcePath)
 	{
 		size_t nPos = sResourcePath.strFilePath.find_last_of(".");
@@ -784,7 +783,7 @@ namespace minasigo
 		std::string strDir2 = GetSubPath(md5(strRawFileName).c_str());
 
 		std::string strUrl = "https://minasigo-no-shigoto-pd-c-res.orphans-order.com/";
-		strUrl += g_MnsgVersion.strMasterVersion;
+		strUrl += g_MnsgVersion.strResourceVersion;
 		strUrl += '/';
 		strUrl += strDir1;
 		strUrl += strDir2;
@@ -793,7 +792,7 @@ namespace minasigo
 
 		return strUrl;
 	}
-	/*‘Œ¹Œo˜Hî•ñ“Ç‚İæ‚è*/
+	/*è³‡æºçµŒè·¯æƒ…å ±èª­ã¿å–ã‚Š*/
 	void ReadResourcePathValue(char* src, ResourcePath& r)
 	{
 		char buffer[256]{};
@@ -811,7 +810,7 @@ namespace minasigo
 			r.strMd5 = buffer;
 		}
 	}
-	/*ˆê——V‹Kì¬*/
+	/*ä¸€è¦§æ–°è¦ä½œæˆ*/
 	bool CreatePathListCsv(const char* pzFilePath)
 	{
 		if (pzFilePath != nullptr)
@@ -829,7 +828,7 @@ namespace minasigo
 
 		return false;
 	}
-	/*ˆê——Šm”F*/
+	/*ä¸€è¦§ç¢ºèª*/
 	bool IsWritten(const char* pzFilePath, const char* pzKey)
 	{
 		bool bRet = false;
@@ -845,7 +844,7 @@ namespace minasigo
 
 		return bRet;
 	}
-	/*ˆê——‘‚«‚İ*/
+	/*ä¸€è¦§æ›¸ãè¾¼ã¿*/
 	bool WritePathToListCsv(const char* pzFilePath, const ResourcePath& r)
 	{
 		HANDLE hFile = ::CreateFileA(pzFilePath, GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
@@ -860,7 +859,7 @@ namespace minasigo
 		}
 		return false;
 	}
-	/*ˆê——XV*/
+	/*ä¸€è¦§æ›´æ–°*/
 	bool UpdatePathListCsv(const char* pzFilePath, const ResourcePath& r)
 	{
 		if (!::PathFileExistsA(pzFilePath))
@@ -875,7 +874,7 @@ namespace minasigo
 		return WritePathToListCsv(pzFilePath, r);
 	}
 
-	/*‘Œ¹Œo˜H—v‹E•Û‘¶*/
+	/*è³‡æºçµŒè·¯è¦æ±‚ãƒ»ä¿å­˜*/
 	bool RequestResourcePathAndSaveToFile(const std::string& strFilePath, const std::string& strRelativeUri)
 	{
 		if (IsWritten(strFilePath.c_str(), strRelativeUri.c_str()))
@@ -889,11 +888,20 @@ namespace minasigo
 		{
 			ResourcePath r;
 			ReadResourcePathValue(const_cast<char*>(strResult.c_str()), r);
-			if (UpdatePathListCsv(strFilePath.c_str(), r))
+			if (r.strMd5.empty() && strstr(strResult.c_str(), "story master not found") != nullptr)
 			{
-				WriteMessage(std::string(strRelativeUri).append(" successfully requested.").c_str());
+				WriteMessage(std::string(strRelativeUri).append(" skipped.").c_str());
 				return true;
 			}
+			else
+			{
+				if (UpdatePathListCsv(strFilePath.c_str(), r))
+				{
+					WriteMessage(std::string(strRelativeUri).append(" successfully requested.").c_str());
+					return true;
+				}
+			}
+
 		}
 		else
 		{
@@ -902,7 +910,7 @@ namespace minasigo
 
 		return false;
 	}
-	/*‹r–{Œo˜H—v‹*/
+	/*è„šæœ¬çµŒè·¯è¦æ±‚*/
 	bool RequestScenarioPath(const std::string& strResourcePath)
 	{
 		std::string strFilePath = CreateWorkFolder("ResourcePath") + "textfiles.txt";
@@ -910,7 +918,7 @@ namespace minasigo
 
 		return RequestResourcePathAndSaveToFile(strFilePath, strRelativeUri);
 	}
-	/*ResourcePathR18’Tõ*/
+	/*ResourcePathR18æ¢ç´¢*/
 	void SearchResourcePathR18(char* src, std::vector<std::string>& resourcePaths)
 	{
 		if (src == nullptr)return;
@@ -933,7 +941,7 @@ namespace minasigo
 			pp = p + strlen(key);
 		}
 	}
-	/*‹r–{ƒtƒ@ƒCƒ‹Œo˜Hæ“¾*/
+	/*è„šæœ¬ãƒ•ã‚¡ã‚¤ãƒ«çµŒè·¯å–å¾—*/
 	void GetScenarioPaths()
 	{
 		std::string strFile = GetBaseFolderPath() + "MasterData\\/StoryMasterData.txt";
@@ -952,7 +960,7 @@ namespace minasigo
 			}
 		}
 	}
-	/*story_MasterDataæ“¾*/
+	/*story_MasterDataå–å¾—*/
 	bool GetStoryMasterData()
 	{
 		std::string strUrl = "https://minasigo-no-shigoto-web-r-server.orphans-order.com/mnsg/story/getMasterData";
@@ -961,7 +969,7 @@ namespace minasigo
 		return SaveInternetResourceToFile(strUrl.c_str(), strFolder.c_str(), strFileName.c_str(), 0, false);
 	}
 
-	/*ˆê——•œŒ³*/
+	/*ä¸€è¦§å¾©å…ƒ*/
 	bool ReadPathListCsv(char* src, std::vector<ResourcePath>& ResourcePaths)
 	{
 		char* p = nullptr;
@@ -1001,7 +1009,7 @@ namespace minasigo
 
 		return iCount > 0;
 	}
-	/*‹r–{æ“¾B‚¢‚­‚Â‚©¸”s‚·‚é‚à‚Ì—L‚èB*/
+	/*è„šæœ¬å–å¾—*/
 	void DownloadScenarios()
 	{
 		std::string strFile = GetBaseFolderPath() + "ResourcePath\\/textfiles.txt";
@@ -1015,11 +1023,12 @@ namespace minasigo
 			for (const ResourcePath &r : ResourcePaths)
 			{
 				std::string strUrl = CreateResourcePath(r);
-				size_t nPos = r.strFilePath.find_last_of("/");
+
+				size_t nPos = r.strFilePath.rfind('/');
 				if (nPos == std::string::npos)continue;
 
 				std::string strFileName = r.strFilePath.substr(nPos + 1);
-				nPos = strFileName.find_last_of(".");
+				nPos = strFileName.rfind('.');
 				if (nPos == std::string::npos)continue;
 				std::string strFolderName = strFileName.substr(0, nPos);
 
@@ -1029,7 +1038,7 @@ namespace minasigo
 		}
 	}
 
-	/*—v‘f‹æØ‚èˆÊ’u’Tõ*/
+	/*è¦ç´ åŒºåˆ‡ã‚Šä½ç½®æ¢ç´¢*/
 	char* FindFirstSeparation(char* src)
 	{
 		const char ref[] = ",\r\n";
@@ -1048,7 +1057,7 @@ namespace minasigo
 		return nullptr;
 	}
 
-	/*‹r–{‹LÚ‘Œ¹–¼’Tõ*/
+	/*è„šæœ¬è¨˜è¼‰è³‡æºåæ¢ç´¢*/
 	void FindScenarioResourceName(char* src, std::vector<std::string> &resourceNames)
 	{
 		char* p = nullptr;
@@ -1060,7 +1069,7 @@ namespace minasigo
 		const char key2[] = "sprite,";
 		size_t nKey2Len = strlen(key2);
 
-		/*‰¹º*/
+		/*éŸ³å£°*/
 		for (;;)
 		{
 			p = strstr(pp, key1);
@@ -1081,7 +1090,7 @@ namespace minasigo
 
 		pp = src;
 
-		/*‰æ‘œ*/
+		/*ç”»åƒ*/
 		for (;;)
 		{
 			p = strstr(pp, key2);
@@ -1106,14 +1115,14 @@ namespace minasigo
 		}
 	}
 
-	/*‹r–{‹LÚ‘Œ¹Œo˜H—v‹*/
+	/*è„šæœ¬è¨˜è¼‰è³‡æºçµŒè·¯è¦æ±‚*/
 	bool RequestScenarioResourcePath(const std::string&strFileName, const std::string& strResourcePath)
 	{
 		std::string strFilePath = CreateWorkFolder("ResourcePath") + strFileName;
 
 		return RequestResourcePathAndSaveToFile(strFilePath, strResourcePath);
 	}
-	/*‹r–{‹LÚ‘Œ¹Œo˜Hæ“¾*/
+	/*è„šæœ¬è¨˜è¼‰è³‡æºçµŒè·¯å–å¾—*/
 	void GetScenarioResourcePaths()
 	{
 		std::string strParentFolder = GetBaseFolderPath() + "Resource";
@@ -1144,7 +1153,7 @@ namespace minasigo
 			}
 		}
 	}
-	/*‹r–{‹LÚ‘Œ¹æ“¾*/
+	/*è„šæœ¬è¨˜è¼‰è³‡æºå–å¾—*/
 	void DownloadScenarioResources()
 	{
 		std::string strParentFolder = GetBaseFolderPath() + "ResourcePath";
@@ -1185,12 +1194,12 @@ namespace minasigo
 
 	}
 
-	/*Tokenó‚¯“n‚µ*/
+	/*Tokenå—ã‘æ¸¡ã—*/
 	const std::wstring GetToken()
 	{
 		return WidenUtf8(g_Auth.strToken);
 	}
-	/*”FØî•ñæ“¾Eå‰æ–ÊƒNƒ‰ƒXƒ|ƒCƒ“ƒ^Ši”[*/
+	/*èªè¨¼æƒ…å ±å–å¾—ãƒ»ä¸»ç”»é¢ã‚¯ãƒ©ã‚¹ãƒã‚¤ãƒ³ã‚¿æ ¼ç´*/
 	void MnsgSetup(void* arg)
 	{
 		g_pMainWindow = static_cast<CMainWindow*>(arg);
@@ -1253,7 +1262,7 @@ namespace minasigo
 
 	//	return std::string();
 	//}
-	///*readStory—v‹*/
+	///*readStoryè¦æ±‚*/
 	//bool RequestReadStory(const std::string& strId)
 	//{
 	//	std::string strFile = CreateWorkFolder("Episode") + strId + ".json";
@@ -1263,7 +1272,7 @@ namespace minasigo
 
 	//	return RequestHttpPostAndWriteFile(wstrUrl, wstrHeader, strPayload, strFile.c_str());
 	//}
-	///*StoryIdŒó•âi‚è‚İ*/
+	///*StoryIdå€™è£œçµã‚Šè¾¼ã¿*/
 	//void SearchStoryIds(char* src, std::vector<std::string>& storyIds)
 	//{
 	//	if (src == nullptr)return;
@@ -1294,7 +1303,7 @@ namespace minasigo
 	//		pp = p + strlen(key1);
 	//	}
 	//}
-	///*‘Œ¹Œo˜Hî•ñŠi”[*/
+	///*è³‡æºçµŒè·¯æƒ…å ±æ ¼ç´*/
 	//bool InsertResourcePathValue(char* src, std::vector<ResourcePath>& resource_path)
 	//{
 	//	ResourcePath r;
@@ -1306,7 +1315,7 @@ namespace minasigo
 	//	}
 	//	return false;
 	//}
-	///*‘Œ¹Œo˜Hî•ñ’Tõ*/
+	///*è³‡æºçµŒè·¯æƒ…å ±æ¢ç´¢*/
 	//void SearchResourcePath(char* src, std::vector<ResourcePath>& resource_path)
 	//{
 	//	char* p = nullptr;
@@ -1340,7 +1349,7 @@ namespace minasigo
 
 	//	free(p);
 	//}
-	///*•Û‘¶Ï‚İ‹r–{ƒtƒ@ƒCƒ‹ŒŸõ*/
+	///*ä¿å­˜æ¸ˆã¿è„šæœ¬ãƒ•ã‚¡ã‚¤ãƒ«æ¤œç´¢*/
 	//void FindEpisodeFiles(const char* pzFolder, std::vector<std::string>& episodes)
 	//{
 	//	if (pzFolder == nullptr)return;
@@ -1365,7 +1374,7 @@ namespace minasigo
 	//	}
 
 	//}
-	///*‘Œ¹ƒtƒ@ƒCƒ‹•Û‘¶*/
+	///*è³‡æºãƒ•ã‚¡ã‚¤ãƒ«ä¿å­˜*/
 	//void DownloadResources(const char* pzFolder, std::vector<ResourcePath> resource_path)
 	//{
 	//	std::string strFolder = CreateWorkFolder("Resource") + pzFolder + "\\/";
@@ -1381,7 +1390,7 @@ namespace minasigo
 	//	}
 
 	//}
-	///*‹r–{‹LÚ‘Œ¹æ“¾*/
+	///*è„šæœ¬è¨˜è¼‰è³‡æºå–å¾—*/
 	//void GetEpisodeResources()
 	//{
 	//	std::string strFolder = GetBaseFolderPath() + "Decrypted\\/";
@@ -1404,7 +1413,7 @@ namespace minasigo
 	//	}
 
 	//}
-	///*‘Œ¹Œo˜H—v‹*/
+	///*è³‡æºçµŒè·¯è¦æ±‚*/
 	//bool RequestResourcePathList(const std::string& strId)
 	//{
 	//	bool bRet = false;
