@@ -1,4 +1,4 @@
-
+﻿
 
 #include <Windows.h>
 #include <urlmon.h>
@@ -520,11 +520,11 @@ namespace minasigo
 			char* pUriEncoded = EncodeUri(src);
 			if (pUriEncoded != nullptr)
 			{
-				char* pTonofuranReplaced = MinasigonReplace(pUriEncoded);
-				if (pTonofuranReplaced != nullptr)
+				char* pMinasigonReplaced = MinasigonReplace(pUriEncoded);
+				if (pMinasigonReplaced != nullptr)
 				{
-					strEncoded = pTonofuranReplaced;
-					free(pTonofuranReplaced);
+					strEncoded = pMinasigonReplaced;
+					free(pMinasigonReplaced);
 				}
 				free(pUriEncoded);
 			}
@@ -653,7 +653,7 @@ namespace minasigo
 		wstrHeader += L"Accept: application/json;charset=UTF-8\r\n";
 		wstrHeader += L"Content-Type: application/json;charset=UTF-8\r\n";
 		wstrHeader += wstrAuth;
-		wstrHeader += L"User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36 Edg/118.0.2088.61\r\n";
+		wstrHeader += L"User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0\r\n";
 		wstrHeader += wstrVersion;
 
 		return wstrHeader;
@@ -1041,7 +1041,7 @@ namespace minasigo
 	/*要素区切り位置探索*/
 	char* FindFirstSeparation(char* src)
 	{
-		const char ref[] = ",\r\n";
+		const char ref[] = ",\r\n\t";
 
 		for (char* p = src; p != nullptr; ++p)
 		{
@@ -1106,7 +1106,8 @@ namespace minasigo
 			memcpy(buffer, p, nLen);
 			*(buffer + nLen) = '\0';
 
-			if (strstr(buffer, "black.jpg") == nullptr)
+			/*演出効果除外*/
+			if (strstr(buffer, "/ef/") == nullptr)
 			{
 				resourceNames.push_back(buffer);
 			}
