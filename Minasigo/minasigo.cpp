@@ -1060,60 +1060,79 @@ namespace minasigo
 	/*脚本記載資源名探索*/
 	void FindScenarioResourceName(char* src, std::vector<std::string> &resourceNames)
 	{
-		char* p = nullptr;
-		char* pp = src;
-		size_t nLen = 0;
-
 		const char key1[] = "playvoice,1,";
-		size_t nKey1Len = strlen(key1);
 		const char key2[] = "sprite,";
-		size_t nKey2Len = strlen(key2);
+		const char key3[] = "bg,";
+
+		const auto ExtractPath = [](char** pp, const char* pzKey, size_t nKeyLen, char** dst)
+			-> bool
+			{
+				if (*pp == nullptr || pzKey == nullptr)return false;
+
+				char* p = strstr(*pp, pzKey);
+				if (p == nullptr)return false;
+				p += nKeyLen;
+
+				*pp = FindFirstSeparation(p);
+				if (*pp == nullptr)return false;
+
+				size_t nLen = *pp - p;
+				char* pBuffer = static_cast<char*>(malloc(nLen + 1LL));
+				if (pBuffer == nullptr)return false;
+				memcpy(pBuffer, p, nLen);
+				*(pBuffer + nLen) = '\0';
+				*dst = pBuffer;
+				return true;
+			};
+
+		char* pRead = src;
 
 		/*音声*/
 		for (;;)
 		{
-			p = strstr(pp, key1);
-			if (p == nullptr)break;
-			p += nKey1Len;
+			char* pBuffer = nullptr;
+			ExtractPath(&pRead, key1, sizeof(key1) - 1, &pBuffer);
+			if (pBuffer == nullptr)break;
 
-			pp = FindFirstSeparation(p);
-			if (pp == nullptr)break;
-
-			nLen = pp - p;
-			char* buffer = static_cast<char*>(malloc(nLen + 1LL));
-			if (buffer == nullptr)break;
-			memcpy(buffer, p, nLen);
-			*(buffer + nLen) = '\0';
-			resourceNames.push_back(buffer);
-			free(buffer);
+			resourceNames.push_back(pBuffer);
+			free(pBuffer);
 		}
 
-		pp = src;
+		pRead = src;
 
 		/*画像*/
 		for (;;)
 		{
-			p = strstr(pp, key2);
-			if (p == nullptr)break;
-			p += nKey2Len;
-
-			pp = FindFirstSeparation(p);
-			if (pp == nullptr)break;
-
-			nLen = pp - p;
-			char* buffer = static_cast<char*>(malloc(nLen + 1LL));
-			if (buffer == nullptr)break;
-			memcpy(buffer, p, nLen);
-			*(buffer + nLen) = '\0';
+			char* pBuffer = nullptr;
+			ExtractPath(&pRead, key2, sizeof(key2) - 1, &pBuffer);
+			if (pBuffer == nullptr)break;
 
 			/*演出効果除外*/
-			if (strstr(buffer, "/ef/") == nullptr)
+			if (strstr(pBuffer, "/ef/") == nullptr)
 			{
-				resourceNames.push_back(buffer);
+				resourceNames.push_back(pBuffer);
 			}
 
-			free(buffer);
+			free(pBuffer);
 		}
+
+		pRead = src;
+
+		/*本来は背景だが、一部bgで指定されているコマ画像有り*/
+		for (;;)
+		{
+			char* pBuffer = nullptr;
+			ExtractPath(&pRead, key3, sizeof(key3) - 1, &pBuffer);
+			if (pBuffer == nullptr)break;
+
+			if (strstr(pBuffer, "adv/image/character") != nullptr)
+			{
+				resourceNames.push_back(pBuffer);
+			}
+
+			free(pBuffer);
+		}
+
 	}
 
 	/*脚本記載資源経路要求*/
